@@ -1,0 +1,22 @@
+name: Build APK
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build APK
+      uses: sawhney17/logcat-action@v2.1.3
+      with:
+        args: |
+          git clone https://github.com/kivy/buildozer
+          cd buildozer
+          python setup.py build
+          pip install -e .
+          buildozer android debug
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: DijitalKartSistemi
+        path: bin/*.apk
+
